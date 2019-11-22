@@ -44,16 +44,14 @@ const app = express();
 const INVALID_REQUEST = 400;
 const INTERNAL_ERROR = 500;
 
-app.use(express.static('public'));
-
 /*
  * This endpoint provides a description of the book corresponding to book_id.
  * Response type is text
  */
-app.get('/bestreads/description/:book_id', async (req,res) => {
+app.get('/bestreads/description/:book_id', async (req, res) => {
   let book = req.params['book_id'].toLowerCase();
   try {
-    let path = "books/" + book + "/description.txt"
+    let path = "books/" + book + "/description.txt";
     let content = await readFileAsync(path);
     res.type('text');
     if (content === INVALID_REQUEST) {
@@ -102,12 +100,12 @@ app.get('/bestreads/reviews/:book_id', async (req, res) => {
       res.type("text");
       res.status(INVALID_REQUEST).send("No results found for " + book);
     } else {
-    for (let i = 0; i < paths.length; i++) {
-      let review = await buildReview(paths[i]);
-      reviews.push(review);
+      for (let i = 0; i < paths.length; i++) {
+        let review = await buildReview(paths[i]);
+        reviews.push(review);
+      }
+      res.json(reviews);
     }
-    res.json(reviews);
-  }
   } catch (err) {
     res.type("text");
     res.status(INTERNAL_ERROR).send("Something went wrong on the server, try again later.");
@@ -123,16 +121,16 @@ app.get('/bestreads/books', async (req, res) => {
   try {
     let result = [];
     let books = await fs.readdir("books/");
-    let titles = []
+    let titles = [];
 
     for (let i = 0; i < books.length; i++) {
       titles.push(await getTitle(books[i]));
     }
     for (let i = 0; i < books.length - 1; i++) {
-      result.push({"title": titles[i],"book_id": books[i]},);
+      result.push({"title": titles[i], "book_id": books[i]},);
     }
 
-    result.push({"title": titles[(titles.length - 1)],"book_id": books[(books.length - 1)]});
+    result.push({"title": titles[(titles.length - 1)], "book_id": books[(books.length - 1)]});
 
     let newJson = {"books": result};
     res.json(newJson);
@@ -198,7 +196,7 @@ async function getInfo(path) {
     let jsonInfo = {
       "title": title,
       "author": author
-    }
+    };
     return jsonInfo;
   }
 }
@@ -213,7 +211,7 @@ async function buildReview(path) {
   let review = await readFileAsync(path);
   if (review === INVALID_REQUEST) {
     return review;
-  } else {
+  }
     let lines = splitLines(review);
 
     let name = lines[0];
@@ -224,11 +222,11 @@ async function buildReview(path) {
       "name": name,
       "rating": rating,
       "text": text
-    }
+    };
 
     return newJson;
-  }
 }
 
+app.use(express.static('public'));
 const PORT = process.env.PORT || 8000;
 app.listen(PORT);
