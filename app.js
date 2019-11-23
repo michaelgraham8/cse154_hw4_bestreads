@@ -188,16 +188,16 @@ async function getInfo(path) {
   if (info === INVALID_REQUEST) {
     return info;
   }
-    let lines = splitLines(info);
+  let lines = splitLines(info);
 
-    let title = lines[0];
-    let author = lines[1];
+  let title = lines[0];
+  let author = lines[1];
 
-    let jsonInfo = {
-      "title": title,
-      "author": author
-    };
-    return jsonInfo;
+  let jsonInfo = {
+    "title": title,
+    "author": author
+  };
+  return jsonInfo;
 }
 
 /**
@@ -227,5 +227,5 @@ async function buildReview(path) {
 }
 
 app.use(express.static('public'));
-const PORT = 8000 || process.env.PORT;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT);
