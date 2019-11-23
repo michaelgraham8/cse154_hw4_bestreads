@@ -187,7 +187,7 @@ async function getInfo(path) {
   let info = await readFileAsync(path);
   if (info === INVALID_REQUEST) {
     return info;
-  } else {
+  }
     let lines = splitLines(info);
 
     let title = lines[0];
@@ -198,7 +198,6 @@ async function getInfo(path) {
       "author": author
     };
     return jsonInfo;
-  }
 }
 
 /**
@@ -212,21 +211,21 @@ async function buildReview(path) {
   if (review === INVALID_REQUEST) {
     return review;
   }
-    let lines = splitLines(review);
+  let lines = splitLines(review);
 
-    let name = lines[0];
-    let rating = lines[1];
-    let text = lines[2];
+  let name = lines[0];
+  let rating = lines[1];
+  let text = lines[2];
 
-    let newJson = {
-      "name": name,
-      "rating": rating,
-      "text": text
-    };
+  let newJson = {
+    "name": name,
+    "rating": rating,
+    "text": text
+  };
 
-    return newJson;
+  return newJson;
 }
 
 app.use(express.static('public'));
-const PORT = process.env.PORT || 8000;
+const PORT = 8000 || process.env.PORT;
 app.listen(PORT);

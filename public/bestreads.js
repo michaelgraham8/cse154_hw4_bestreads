@@ -21,7 +21,7 @@
     id("home").addEventListener("click", function() {
       id("single-book").classList.add("hidden");
       id("all-books").classList.remove("hidden");
-    })
+    });
   }
 
   /**
@@ -155,54 +155,52 @@
       id("book-reviews").appendChild(review);
 
       avgRating += parseFloat(response[i].rating);
-      count ++;
+      count++;
     }
     avgRating = (avgRating / count);
     avgRating = avgRating.toFixed(1);
     id("book-rating").textContent = "" + avgRating;
   }
 
-/**
- * Returns the element that has the ID attribute with the specified value.
- * @param {string} id - element ID
- * @return {object} DOM object associated with id.
- */
-function id(id) {
-  return document.getElementById(id);
-}
-
-/**
- * Returns the response's result text if successful, otherwise
- * returns the rejected Promise result with an error status and corresponding text
- * @param {Object} response - response to check for success/error
- * @return {Object} - valid response if response was successful, otherwise rejected
- *                    Promise result
- */
-function checkStatus(response) {
-  if (!response.ok) {
-    throw Error("Error in request: " + response.statusText);
+  /**
+   * Returns the element that has the ID attribute with the specified value.
+   * @param {string} id - element ID
+   * @return {object} DOM object associated with id.
+   */
+  function id(id) {
+    return document.getElementById(id);
   }
-  return response;
-}
 
-/**
- * Manipulates the DOM appropriately when there is an error in a fetch request to the API by
- * hiding all book data and displaying an error message
- * @param {Object} response - Response object from the fetch request
- *
- */
-function handleError(response) {
-  id("book-data").classList.add("hidden");
-  id("error-text").classList.remove("hidden");
-  id("home").disabled = true;
-}
+  /**
+   * Returns the response's result text if successful, otherwise
+   * returns the rejected Promise result with an error status and corresponding text
+   * @param {Object} response - response to check for success/error
+   * @return {Object} - valid response if response was successful, otherwise rejected
+   *                    Promise result
+   */
+  function checkStatus(response) {
+    if (!response.ok) {
+      throw Error("Error in request: " + response.statusText);
+    }
+    return response;
+  }
 
-/**
- * This helper funtion generates a new DOM element
- * @param {string} tagName - DOM element that is to be created
- * @return {object} generated DOM object
- */
-function gen(tagName) {
-  return document.createElement(tagName);
-}
+  /**
+   * Manipulates the DOM appropriately when there is an error in a fetch request to the API by
+   * hiding all book data and displaying an error message
+   */
+  function handleError() {
+    id("book-data").classList.add("hidden");
+    id("error-text").classList.remove("hidden");
+    id("home").disabled = true;
+  }
+
+  /**
+   * This helper funtion generates a new DOM element
+   * @param {string} tagName - DOM element that is to be created
+   * @return {object} generated DOM object
+   */
+  function gen(tagName) {
+    return document.createElement(tagName);
+  }
 })();
